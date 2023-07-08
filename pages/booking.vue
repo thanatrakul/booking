@@ -9,11 +9,27 @@
 
   <div class="mt-4 mx-20">
     <form class="text-left">
+
+      <!-- หัวข้อ -->
       <h2 class="text-xl font-bold mb-4">ระบบจอง วันปรึกษพยาบาล</h2>
+
+      <!-- เลือกวันที่ -->
       <div class="flex items-center mx-20">
         <label for="datepicker" class="mr-2 text-lg font-bold">กรุณาเลือกวันที่:</label>
         <input type="text" id="datepicker" class="px-2 py-1 border border-gray-300 rounded" readonly>
       </div>
+
+      <!-- หลังจากเลือกวันที่แล้ว -->
+      <div v-if="selectedDate" class="mt-4 mx-20">
+        <div class="flex justify-center" style="height: 150px;">
+          <div v-for="day in timeSlots" :key="day" class="bg-gray-200 p-2 flex-shrink-0" style="width: 150px; margin: 20px;">
+            <div class="flex items-center justify-center" style="height: 100%;">
+              {{ day }}
+            </div>
+          </div>
+        </div>
+      </div>
+
     </form>
   </div>
 </template>
@@ -68,11 +84,26 @@ const ThaiLocale = {
   }
 };
 
+
+// Available Time Slot
+const availableTimeSlots = [
+  "07.00 - 08.00",
+  "08.00 - 09.00",
+  "09.00 - 10.00",
+  "10.00 - 11.00",
+  "11.00 - 12.00",
+  "13.00 - 14.00",
+  "14.00 - 15.00"
+]
+
+
 export default {
   name: 'LogoText',
   data() {
     return {
-      companyName: 'คลินิกนมแม่ กลุ่มที่ 4'
+      companyName: 'คลินิกนมแม่ กลุ่มที่ 4',
+      selectedDate: null,
+      timeSlots: []
     };
   },
   mounted() {
@@ -92,8 +123,38 @@ export default {
             // Disable dates that are not Monday to Friday
             return date.getDay() === 0 || date.getDay() === 6;
           }
-        ]
+        ],
+        onChange: (selectedDates, dateStr) => {
+          const selectedDay = new Date(dateStr).getDay();
+          this.selectedDate = selectedDay % 7;
+
+          // Clear slot
+          this.timeSlots = [];
+          this.randomTimeSlots();
+        }
       });
+    },
+    randomTimeSlots() {
+      const pickup = Math.floor(Math.random() * this.selectedDate) + 1;; // Number of elements to randomly pick
+      const shuffledTimeSlots = this.shuffleArray(availableTimeSlots.slice());
+      this.timeSlots = shuffledTimeSlots.slice(0, pickup);
+      this.timeSlots.sort();
+    },
+    shuffleArray(array) {
+      const shuffledArray = [...array];
+      let currentIndex = shuffledArray.length;
+      let temporaryValue, randomIndex;
+
+      while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        temporaryValue = shuffledArray[currentIndex];
+        shuffledArray[currentIndex] = shuffledArray[randomIndex];
+        shuffledArray[randomIndex] = temporaryValue;
+      }
+
+      return shuffledArray;
     }
   }
 }
