@@ -15,5 +15,10 @@
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@types/node": "^18",
     "nuxt": "^3.6.2"
+  },
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "flatpickr": "^4.6.13",
+    "moment": "^2.29.4"
   }
 }
