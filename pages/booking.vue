@@ -65,20 +65,40 @@
           <label for="consult_type" class="mr-2 text-lg font-bold">รูปแบบการปรึกษา:</label>
           <div class="flex flex-col">
             <label class="inline-flex items-center">
-              <input type="radio" v-model="selectedOption" value="phone_call" class="form-radio text-blue-500">
+              <input type="radio" v-model="consultTypeSelected" value="phone_call" class="form-radio text-blue-500">
               <span class="ml-2">Phone Call</span>
             </label>
             <label class="inline-flex items-center">
-              <input type="radio" v-model="selectedOption" value="vdo_call" class="form-radio text-blue-500">
+              <input type="radio" v-model="consultTypeSelected" value="vdo_call" class="form-radio text-blue-500">
               <span class="ml-2">VDO Call</span>
             </label>
             <label class="inline-flex items-center">
-              <input type="radio" v-model="selectedOption" value="onsite" class="form-radio text-blue-500">
+              <input type="radio" v-model="consultTypeSelected" value="onsite" class="form-radio text-blue-500">
               <span class="ml-2">On-Site</span>
             </label>
           </div>
         </div>
 
+      </fieldset>
+
+      <!-- Consult Issues -->
+      <fieldset class="border border-gray-300 rounded p-4 mb-4">
+        <legend class="text-gray-700 font-semibold mb-2 px-5">หัวข้อปรึกษา</legend>
+
+        <!-- Customer Phone Number -->
+        <div class="mb-4">
+          <label class="block text-gray-700 font-semibold mb-2">Topics</label>
+          <div class="flex flex-col">
+            <label v-for="(topic, index) in consultTopics" :key="index" class="inline-flex items-center mb-2">
+              <input type="checkbox" :name="'topic' + (index + 1)" :value="topic" v-model="consultTopicSelected" class="form-checkbox text-green-500">
+              <span class="ml-2">{{ topic }}</span>
+            </label>
+          </div>
+        </div>
+        <div v-if="consultTopicSelected.includes(consultTopics[consultTopics.length - 1])" class="mb-4">
+          <label for="otherTopic" class="block text-gray-700 font-semibold">Other Topic</label>
+          <input type="text" id="otherTopic" v-model="otherTopic" class="w-full border border-gray-300 rounded px-3 py-2">
+        </div>
       </fieldset>
 
       <!-- บันทึกการจอง -->
@@ -161,7 +181,15 @@ export default {
       selectedDate: null,
       timeSlots: [],
       timeSlotEmpty: false,
-      selectedOption: 'phone_call'
+      consultTypeSelected: 'phone_call',
+      consultTopics: [
+        'Topic 1',
+        'Topic 2',
+        'Topic 3',
+        'อื่นๆ'
+      ],
+      consultTopicSelected: [],
+      otherTopic: ''
     };
   },
   mounted() {
