@@ -21,6 +21,7 @@
         <div class="mb-4">
           <label for="datepicker" class="mr-2 text-lg font-bold">วันที่:</label>
           <input type="text" id="datepicker" class="px-2 py-1 border border-gray-300 rounded" readonly>
+          จองได้ล่วงก่อน 1 วัน
         </div>
 
         <!-- หลังจากเลือกวันที่แล้ว -->
@@ -54,10 +55,31 @@
           <input type="text" class="px-2 py-1 border border-gray-300 rounded">
         </div>
 
+        <!-- Customer Name -->
+        <div class="mb-4">
+          <label for="id_number" class="mr-2 text-lg font-bold">บัตรประชาชน:</label>
+          <input type="text" class="px-2 py-1 border border-gray-300 rounded">
+        </div>
+
         <!-- Customer Phone Number -->
         <div class="mb-4">
           <label for="name" class="mr-2 text-lg font-bold">เบอร์โทรติดต่อ:</label>
           <input type="text" class="px-2 py-1 border border-gray-300 rounded">
+        </div>
+
+         <!-- Customer Hospital -->
+        <div class="mb-4">
+          <label for="consult_type" class="mr-2 text-lg font-bold">ประเภทผู้ใช้บริการ:</label>
+          <div class="flex flex-col">
+            <label class="inline-flex items-center">
+              <input type="radio" v-model="customer_user" value="registered_customer" class="form-radio text-blue-500">
+              <span class="ml-2">เคยมีประวัติกับโรงพบาบาลแล้ว</span>
+            </label>
+            <label class="inline-flex items-center">
+              <input type="radio" v-model="customer_user" value="new_customer" class="form-radio text-blue-500">
+              <span class="ml-2">ยังไม่เคยได้รับบริการกับทางโรงพยาบ</span>
+            </label>
+          </div>
         </div>
 
         <!-- Consult Type -->
@@ -97,13 +119,14 @@
         </div>
         <div v-if="consultTopicSelected.includes(consultTopics[consultTopics.length - 1])" class="mb-4">
           <label for="otherTopic" class="block text-gray-700 font-semibold">Other Topic</label>
-          <input type="text" id="otherTopic" v-model="otherTopic" class="w-full border border-gray-300 rounded px-3 py-2">
+          <textarea id="otherTopic" v-model="otherTopic" class="w-full border border-gray-300 rounded px-3 py-2"></textarea>
         </div>
       </fieldset>
 
       <!-- บันทึกการจอง -->
       <div class="text-center">
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">บันทึกการจอง</button>
+        <nuxt-link to="/next-page" class="btn">Go to Next Page</nuxt-link>
       </div>
 
     </form>
@@ -197,6 +220,11 @@ export default {
   },
   methods: {
     initDatepicker() {
+      const today = new Date();
+      const oneDaysAhead = new Date();
+      oneDaysAhead.setDate(today.getDate() + 1);
+
+
       flatpickr("#datepicker", {
         // Datepicker options and configurations
         // For example:
@@ -210,6 +238,7 @@ export default {
             return date.getDay() === 0 || date.getDay() === 6;
           }
         ],
+        minDate: oneDaysAhead,
         onChange: (selectedDates, dateStr) => {
           const selectedDay = new Date(dateStr).getDay();
           this.selectedDate = selectedDay % availableTimeSlots.length;
