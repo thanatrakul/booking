@@ -1,4 +1,5 @@
 <template>
+
   <div class="text-center mt-10">
     <div class="flex items-center justify-center mb-4">
       <img src="~/assets/logo.png" alt="Logo" class="h-10 w-10">
@@ -7,27 +8,82 @@
     <hr class="border-gray-300 mx-20">
   </div>
 
-  <div class="mt-4 mx-20">
-    <form class="text-left">
+  <div class="mt-4 max-w-6xl mx-20">
 
-      <!-- หัวข้อ -->
-      <h2 class="text-xl font-bold mb-4">ระบบจอง วันปรึกษพยาบาล</h2>
+    <h1 class="text-2xl font-bold mb-4">ระบบจอง วันปรึกษาพยาบาล</h1>
+    <form>
 
-      <!-- เลือกวันที่ -->
-      <div class="flex items-center mx-20">
-        <label for="datepicker" class="mr-2 text-lg font-bold">กรุณาเลือกวันที่:</label>
-        <input type="text" id="datepicker" class="px-2 py-1 border border-gray-300 rounded" readonly>
-      </div>
+      <!-- Day Booking -->
+      <fieldset class="border border-gray-300 rounded p-4 mb-4">
+        <legend class="text-gray-700 font-semibold mb-2 px-5">ระบุวันจอง</legend>
 
-      <!-- หลังจากเลือกวันที่แล้ว -->
-      <div v-if="selectedDate" class="mt-4 mx-20">
-        <div class="flex justify-center" style="height: 150px;">
-          <div v-for="day in timeSlots" :key="day" class="bg-gray-200 p-2 flex-shrink-0" style="width: 150px; margin: 20px;">
-            <div class="flex items-center justify-center" style="height: 100%;">
-              {{ day }}
+        <!-- เลือกวันที่ -->
+        <div class="mb-4">
+          <label for="datepicker" class="mr-2 text-lg font-bold">วันที่:</label>
+          <input type="text" id="datepicker" class="px-2 py-1 border border-gray-300 rounded" readonly>
+        </div>
+
+        <!-- หลังจากเลือกวันที่แล้ว -->
+        <div class="mb-4">
+          <label class="mr-2 text-lg font-bold">กรุณาเลือกช่วงเวลา:</label>
+
+          <!-- มี Time Slot ให้เลือก -->
+          <div v-if="timeSlots.length > 0" class="flex justify-left" style="height: 150px;">
+            <div v-for="day in timeSlots" :key="day" class="bg-gray-200 p-2 flex-shrink-0" style="width: 150px; margin: 20px;">
+              <div class="flex items-center justify-center" style="height: 100%;">
+                {{ day }}
+              </div>
             </div>
           </div>
+
+          <!-- เต็มแล้ว -->
+          <div v-if="timeSlotEmpty" class="mt-4 mx-20">
+            <label class="mr-2 text-lg font-bold">เต็ม</label>
+          </div>
+
         </div>
+      </fieldset>
+
+      <!-- Customer Data -->
+      <fieldset class="border border-gray-300 rounded p-4 mb-4">
+        <legend class="text-gray-700 font-semibold mb-2 px-5">ข้อมูลผู้ใช้บริการ</legend>
+
+        <!-- Customer Name -->
+        <div class="mb-4">
+          <label for="name" class="mr-2 text-lg font-bold">ชื่อผู้ใช้บริการ:</label>
+          <input type="text" class="px-2 py-1 border border-gray-300 rounded">
+        </div>
+
+        <!-- Customer Phone Number -->
+        <div class="mb-4">
+          <label for="name" class="mr-2 text-lg font-bold">เบอร์โทรติดต่อ:</label>
+          <input type="text" class="px-2 py-1 border border-gray-300 rounded">
+        </div>
+
+        <!-- Consult Type -->
+        <div class="mb-4">
+          <label for="consult_type" class="mr-2 text-lg font-bold">รูปแบบการปรึกษา:</label>
+          <div class="flex flex-col">
+            <label class="inline-flex items-center">
+              <input type="radio" v-model="selectedOption" value="phone_call" class="form-radio text-blue-500">
+              <span class="ml-2">Phone Call</span>
+            </label>
+            <label class="inline-flex items-center">
+              <input type="radio" v-model="selectedOption" value="vdo_call" class="form-radio text-blue-500">
+              <span class="ml-2">VDO Call</span>
+            </label>
+            <label class="inline-flex items-center">
+              <input type="radio" v-model="selectedOption" value="onsite" class="form-radio text-blue-500">
+              <span class="ml-2">On-Site</span>
+            </label>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <!-- บันทึกการจอง -->
+      <div class="text-center">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
       </div>
 
     </form>
@@ -103,7 +159,9 @@ export default {
     return {
       companyName: 'คลินิกนมแม่ กลุ่มที่ 4',
       selectedDate: null,
-      timeSlots: []
+      timeSlots: [],
+      timeSlotEmpty: false,
+      selectedOption: 'phone_call'
     };
   },
   mounted() {
@@ -126,11 +184,20 @@ export default {
         ],
         onChange: (selectedDates, dateStr) => {
           const selectedDay = new Date(dateStr).getDay();
-          this.selectedDate = selectedDay % 7;
+          this.selectedDate = selectedDay % availableTimeSlots.length;
 
-          // Clear slot
+          // Clear slots
           this.timeSlots = [];
-          this.randomTimeSlots();
+
+          if (this.selectedDate > 0) {
+            this.randomTimeSlots();
+          }
+
+          // Check Empty
+          this.timeSlotEmpty = false;
+          if (this.timeSlots.length == 0) {
+            this.timeSlotEmpty = true;
+          }
         }
       });
     },
