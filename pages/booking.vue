@@ -8,8 +8,8 @@
     <hr class="border-gray-300 mx-20">
   </div>
 
-  <div class="mt-4 max-w-6xl mx-20 mb-20">
-    <h1 class="text-2xl font-bold mb-4">ระบบจอง วันปรึกษาพยาบาล</h1>
+  <div class="mt-4 max-w-full mx-20 mb-20">
+    <h1 class="text-2xl font-bold mb-4">ระบบจองนัดปรึกษาพยาบาล</h1>
 
     <!-- Day Booking -->
     <fieldset class="border border-gray-300 rounded p-4 mb-4">
@@ -19,7 +19,7 @@
       <div class="mb-4">
         <label for="datepicker" class="mr-2 text-lg font-bold">วันที่:</label>
         <input type="text" id="datepicker" v-model="bookingDate" class="px-2 py-1 border border-gray-300 rounded" readonly>
-        จองได้ล่วงก่อน 1 วัน
+        จองได้ล่วงหน้าก่อน 1 วัน
       </div>
 
       <!-- เลือกเวลา -->
@@ -100,7 +100,7 @@
           </label>
           <label class="inline-flex items-center">
             <input type="radio" v-model="hnMember" value="new_customer" class="form-radio text-blue-500">
-            <span class="ml-2">ยังไม่เคยได้รับบริการกับทางโรงพยาบ</span>
+            <span class="ml-2">ยังไม่เคยได้รับบริการกับทางโรงพยาบาล</span>
           </label>
         </div>
       </div>
@@ -111,15 +111,15 @@
         <div class="flex flex-col">
           <label class="inline-flex items-center">
             <input type="radio" v-model="consultTypeSelected" value="phone_call" class="form-radio text-blue-500">
-            <span class="ml-2">Phone Call</span>
+            <span class="ml-2">ทางโทรศัพท์</span>
           </label>
           <label class="inline-flex items-center">
             <input type="radio" v-model="consultTypeSelected" value="vdo_call" class="form-radio text-blue-500">
-            <span class="ml-2">VDO Call</span>
+            <span class="ml-2">ทางวีดีโอคอล</span>
           </label>
           <label class="inline-flex items-center">
             <input type="radio" v-model="consultTypeSelected" value="onsite" class="form-radio text-blue-500">
-            <span class="ml-2">On-Site</span>
+            <span class="ml-2">Walk-in</span>
           </label>
         </div>
       </div>
@@ -141,7 +141,7 @@
         </div>
       </div>
       <div v-if="consultTopicSelected.includes(consultTopics[consultTopics.length - 1])" class="mb-4">
-        <label for="otherTopic" class="block text-gray-700 font-semibold">Other Topic</label>
+        <label for="otherTopic" class="block text-gray-700 font-semibold">ระบุปัญหา</label>
         <textarea id="otherTopic" v-model="otherTopic" class="w-full border border-gray-300 rounded px-3 py-2"></textarea>
       </div>
     </fieldset>
@@ -161,32 +161,14 @@
         </span>
       </div>
       <div>
-        <nuxt-link
-          :to="{
-            path: '/success',
-            query: {
-              // Booking
-              bookingDate: this.bookingDate,
-              selectedTimeSlot: this.selectedTimeSlot,
-
-              // Customer Data
-              customerName: this.customerName,
-              customerIdNumber: this.customerIdNumber,
-              customerPhoneNumber: this.customerPhoneNumber,
-              customerEmail: this.customerEmail,
-              hnMember: this.hnMember,
-
-              // Consult Type
-              consultTopicSelected: this.consultTopicSelected,
-              consultTypeSelected: this.consultTypeSelected
-            }
-          }"
+        <button
+          @click="navigateToSuccess"
           :disabled="!consentChecked"
           :class="{ 'opacity-50 cursor-not-allowed': !consentChecked }"
           class="bg-blue-500 text-white px-4 py-2 rounded"
         >
           บันทึกการจอง
-        </nuxt-link>
+        </button>
       </div>
     </div>
 
@@ -256,12 +238,6 @@ export default {
     return {
       companyName: 'คลินิกนมแม่ กลุ่มที่ 4',
 
-      // modal
-      modal: {
-        title: 'BIG',
-        message: 'BIG',
-      },
-
       // Datepicker
       selectedDate: null,
 
@@ -278,9 +254,9 @@ export default {
 
       // Consult Topics
       consultTopics: [
-        'Topic 1',
-        'Topic 2',
-        'Topic 3',
+        'ปัญหาด้านน้ำนม',
+        'ปัญหาการให้นม',
+        'ทารกร้องกวน',
         'อื่นๆ'
       ],
       otherTopic: '',
@@ -310,6 +286,26 @@ export default {
     this.initDatepicker();
   },
   methods: {
+    navigateToSuccess() {
+      // Construct the query parameters
+      const queryParams = {
+        bookingDate: this.bookingDate,
+        selectedTimeSlot: this.selectedTimeSlot,
+        customerName: this.customerName,
+        customerIdNumber: this.customerIdNumber,
+        customerPhoneNumber: this.customerPhoneNumber,
+        customerEmail: this.customerEmail,
+        hnMember: this.hnMember,
+        consultTopicSelected: this.consultTopicSelected,
+        consultTypeSelected: this.consultTypeSelected
+      };
+
+      // Navigate to the "/success" path with query parameters
+      this.$router.push({
+        path: '/success',
+        query: queryParams
+      });
+    },
     openModal() {
       this.showModal = true;
     },
