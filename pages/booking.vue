@@ -128,11 +128,10 @@
 
     <!-- Consult Issues -->
     <fieldset class="border border-gray-300 rounded p-4 mb-4">
-      <legend class="text-gray-700 font-semibold mb-2 px-5">หัวข้อปรึกษา</legend>
+      <legend class="text-gray-700 font-semibold mb-2 px-5">ปัญหาที่พบ</legend>
 
       <!-- Customer Phone Number -->
       <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-2">Topics</label>
         <div class="flex flex-col">
           <label v-for="(topic, index) in consultTopics" :key="index" class="inline-flex items-center mb-2">
             <input type="checkbox" :name="'topic' + (index + 1)" :value="topic" v-model="consultTopicSelected" class="form-checkbox text-green-500">
