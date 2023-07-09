@@ -22,31 +22,44 @@
         จองได้ล่วงก่อน 1 วัน
       </div>
 
-      <!-- หลังจากเลือกวันที่แล้ว -->
+      <!-- เลือกเวลา -->
       <div class="mb-4" v-if="bookingDate">
         <label class="mr-2 text-lg font-bold">กรุณาเลือกช่วงเวลา:</label>
 
         <!-- มี Time Slot ให้เลือก -->
-        <div v-if="timeSlots.length > 0" class="flex justify-left" style="height: 150px;">
-          <div v-for="time in timeSlots" :key="time" class="p-2 flex-shrink-0 relative" :class="{ 'bg-gray-200': selectedTimeSlot !== time, 'bg-blue-500 text-white': selectedTimeSlot === time }" style="width: 150px; margin: 20px; cursor: pointer;" @click="selectTimeSlot(time)">
+        <div class="flex justify-left" style="height: 150px;">
+          <div
+            v-for="time in timeSlots"
+            :key="time.value"
+            class="p-2 flex-shrink-0 relative"
+            :class="{
+              'bg-gray-200': !time.selectable || (selectedTimeSlot !== time.value && time.selectable),
+              'bg-blue-500 text-white': selectedTimeSlot === time.value && time.selectable
+            }"
+            style="width: 150px; margin: 20px; cursor: pointer;"
+            @click="selectTimeSlot(time.value)"
+          >
             <div class="flex flex-col items-center justify-center h-full">
               <div class="w-full text-center">
-                {{ time }}
+                {{ time.value }}
               </div>
-              <div v-if="selectedTimeSlot === time" class="text-black bg-white mt-auto px-2 py-1 rounded-lg">
+              <div
+                v-if="!time.selectable"
+                class="text-red-500 mt-auto px-2 py-1 rounded-lg"
+              >
+                เต็มแล้ว
+              </div>
+              <div
+                v-else-if="selectedTimeSlot === time.value && time.selectable"
+                class="text-black bg-white mt-auto px-2 py-1 rounded-lg"
+              >
                 เลือก
               </div>
             </div>
           </div>
         </div>
-
-
-        <!-- เต็มแล้ว -->
-        <div v-if="timeSlotEmpty" class="mt-4 mx-20">
-          <label class="mr-2 text-lg font-bold">เต็ม</label>
-        </div>
-
       </div>
+
     </fieldset>
 
     <!-- Customer Data -->
@@ -175,10 +188,11 @@
           บันทึกการจอง
         </nuxt-link>
       </div>
-      <consent-modal v-if="showModal" @close-modal="closeModal" />
     </div>
 
   </div>
+
+  <consent-modal v-if="showModal" @close-modal="closeModal" />
 </template>
 
 <script>
@@ -233,19 +247,6 @@ const ThaiLocale = {
   }
 };
 
-
-// Available Time Slot
-const availableTimeSlots = [
-  "07.00 - 08.00",
-  "08.00 - 09.00",
-  "09.00 - 10.00",
-  "10.00 - 11.00",
-  "11.00 - 12.00",
-  "13.00 - 14.00",
-  "14.00 - 15.00"
-]
-
-
 export default {
   name: 'LogoText',
   components: {
@@ -255,12 +256,25 @@ export default {
     return {
       companyName: 'คลินิกนมแม่ กลุ่มที่ 4',
 
+      // modal
+      modal: {
+        title: 'BIG',
+        message: 'BIG',
+      },
+
       // Datepicker
       selectedDate: null,
 
       // Time Slots
-      timeSlots: [],
-      timeSlotEmpty: false,
+      timeSlots: [
+        { value: "07.00 - 08.00", selectable: true },
+        { value: "08.00 - 09.00", selectable: false },
+        { value: "09.00 - 10.00", selectable: true },
+        { value: "10.00 - 11.00", selectable: true },
+        { value: "11.00 - 12.00", selectable: false },
+        { value: "13.00 - 14.00", selectable: true },
+        { value: "14.00 - 15.00", selectable: true },
+      ],
 
       // Consult Topics
       consultTopics: [
@@ -303,8 +317,12 @@ export default {
       this.showModal = false;
     },
     selectTimeSlot(time) {
-      this.selectedTimeSlot = time;
-      // Additional logic for handling the selected time slot
+      if (this.bookingDate) {
+        const selectedSlot = this.timeSlots.find(slot => slot.value === time);
+        if (selectedSlot.selectable) {
+          this.selectedTimeSlot = time;
+        }
+      }
     },
     initDatepicker() {
       const today = new Date();
@@ -312,11 +330,6 @@ export default {
       oneDaysAhead.setDate(today.getDate() + 1);
 
       flatpickr("#datepicker", {
-        // Datepicker options and configurations
-        // For example:
-        // dateFormat: "Y-m-d",
-        // minDate: "today",
-        // ...
         locale: ThaiLocale, // Set the Thai locale data
         disable: [
           function(date) {
@@ -327,44 +340,8 @@ export default {
         minDate: oneDaysAhead,
         onChange: (selectedDates, dateStr) => {
           const selectedDay = new Date(dateStr).getDay();
-          this.selectedDate = selectedDay % availableTimeSlots.length;
-
-          // Clear slots
-          this.timeSlots = [];
-
-          if (this.selectedDate > 0) {
-            this.randomTimeSlots();
-          }
-
-          // Check Empty
-          this.timeSlotEmpty = false;
-          if (this.timeSlots.length == 0) {
-            this.timeSlotEmpty = true;
-          }
         }
       });
-    },
-    randomTimeSlots() {
-      const pickup = Math.floor(Math.random() * this.selectedDate) + 1;; // Number of elements to randomly pick
-      const shuffledTimeSlots = this.shuffleArray(availableTimeSlots.slice());
-      this.timeSlots = shuffledTimeSlots.slice(0, pickup);
-      this.timeSlots.sort();
-    },
-    shuffleArray(array) {
-      const shuffledArray = [...array];
-      let currentIndex = shuffledArray.length;
-      let temporaryValue, randomIndex;
-
-      while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-
-        temporaryValue = shuffledArray[currentIndex];
-        shuffledArray[currentIndex] = shuffledArray[randomIndex];
-        shuffledArray[randomIndex] = temporaryValue;
-      }
-
-      return shuffledArray;
     }
   }
 }
