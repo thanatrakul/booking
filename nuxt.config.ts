@@ -8,5 +8,16 @@ export default defineNuxtConfig({
   ],
   css: [
     '@/assets/css/main.css',
-  ]
+  ],
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push(
+        {
+          name: 'tracking-home',
+          path: '/tracking',
+          component: resolve(__dirname, 'pages/tracking/index.vue'),
+        }
+      );
+    },
+  },
 })

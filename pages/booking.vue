@@ -16,10 +16,12 @@
       <legend class="text-gray-700 font-semibold mb-2 px-5">ระบุวันจอง</legend>
 
       <!-- เลือกวันที่ -->
-      <div class="mb-4">
+      <div class="mb-4" :class="{ 'input-error': formErrors.bookingDate }">
+        <span class="text-red-500">*</span>
         <label for="datepicker" class="mr-2 text-lg font-bold">วันที่:</label>
-        <input type="text" id="datepicker" v-model="bookingDate" class="px-2 py-1 border border-gray-300 rounded" readonly>
+        <input type="text" id="datepicker" v-model="bookingDate" class="px-2 py-1 border border-gray-300 rounded" readonly required>
         จองได้ล่วงหน้าก่อน 1 วัน
+        <div v-if="formErrors.bookingDate" class="error-message">{{ formErrors.bookingDate }}</div>
       </div>
 
       <!-- เลือกเวลา -->
@@ -27,7 +29,7 @@
         <label class="mr-2 text-lg font-bold">กรุณาเลือกช่วงเวลา:</label>
 
         <!-- มี Time Slot ให้เลือก -->
-        <div class="flex justify-left" style="height: 150px;">
+        <div class="flex justify-left" style="height: 150px;" :class="{ 'input-error': formErrors.selectedTimeSlot }">
           <div
             v-for="time in timeSlots"
             :key="time.value"
@@ -58,6 +60,8 @@
             </div>
           </div>
         </div>
+        <div v-if="formErrors.selectedTimeSlot" class="error-message">{{ formErrors.selectedTimeSlot }}</div>
+
       </div>
 
     </fieldset>
@@ -67,31 +71,40 @@
       <legend class="text-gray-700 font-semibold mb-2 px-5">ข้อมูลผู้ใช้บริการ</legend>
 
       <!-- Customer Name -->
-      <div class="mb-4">
+      <div class="mb-4" :class="{ 'input-error': formErrors.customerName }">
+        <span class="text-red-500">*</span>
         <label for="name" class="mr-2 text-lg font-bold">ชื่อผู้ใช้บริการ:</label>
-        <input type="text" v-model="customerName" class="px-2 py-1 border border-gray-300 rounded">
+        <input type="text" v-model="customerName" class="px-2 py-1 border border-gray-300 rounded" required>
+        <div v-if="formErrors.customerName" class="error-message">{{ formErrors.customerName }}</div>
       </div>
 
       <!-- Customer ID Number -->
-      <div class="mb-4">
+      <div class="mb-4" :class="{ 'input-error': formErrors.customerIdNumber }">
+        <span class="text-red-500">*</span>
         <label for="id_number" class="mr-2 text-lg font-bold">บัตรประชาชน:</label>
-        <input type="text" v-model="customerIdNumber" class="px-2 py-1 border border-gray-300 rounded">
+        <input type="text" v-model="customerIdNumber" class="px-2 py-1 border border-gray-300 rounded" required>
+        <div v-if="formErrors.customerIdNumber" class="error-message">{{ formErrors.customerIdNumber }}</div>
       </div>
 
       <!-- Customer Phone Number -->
-      <div class="mb-4">
+      <div class="mb-4" :class="{ 'input-error': formErrors.customerPhoneNumber }">
+        <span class="text-red-500">*</span>
         <label for="name" class="mr-2 text-lg font-bold">เบอร์โทรติดต่อ:</label>
-        <input type="text" v-model="customerPhoneNumber" class="px-2 py-1 border border-gray-300 rounded">
+        <input type="text" v-model="customerPhoneNumber" class="px-2 py-1 border border-gray-300 rounded" required>
+        <div v-if="formErrors.customerPhoneNumber" class="error-message">{{ formErrors.customerPhoneNumber }}</div>
       </div>
 
       <!-- Email -->
-      <div class="mb-4">
-        <label for="emaiol" class="mr-2 text-lg font-bold">Email:</label>
-        <input type="email" v-model="customerEmail" class="px-2 py-1 border border-gray-300 rounded">
+      <div class="mb-4" :class="{ 'input-error': formErrors.customerEmail }">
+        <span class="text-red-500">*</span>
+        <label for="email" class="mr-2 text-lg font-bold">Email:</label>
+        <input type="email" v-model="customerEmail" class="px-2 py-1 border border-gray-300 rounded" required>
+        <div v-if="formErrors.customerEmail" class="error-message">{{ formErrors.customerEmail }}</div>
       </div>
 
-       <!-- Customer Hospital -->
-      <div class="mb-4">
+      <!-- Customer Hospital -->
+      <div class="mb-4" :class="{ 'input-error': formErrors.hnMember }">
+        <span class="text-red-500">*</span>
         <label for="hmMember" class="mr-2 text-lg font-bold">ประเภทผู้ใช้บริการ:</label>
         <div class="flex flex-col">
           <label class="inline-flex items-center">
@@ -103,10 +116,12 @@
             <span class="ml-2">ยังไม่เคยได้รับบริการกับทางโรงพยาบาล</span>
           </label>
         </div>
+        <div v-if="formErrors.hnMember" class="error-message">{{ formErrors.hnMember }}</div>
       </div>
 
       <!-- Consult Type -->
       <div class="mb-4">
+        <span class="text-red-500">*</span>
         <label for="consult_type" class="mr-2 text-lg font-bold">รูปแบบการปรึกษา:</label>
         <div class="flex flex-col">
           <label class="inline-flex items-center">
@@ -127,7 +142,7 @@
     </fieldset>
 
     <!-- Consult Issues -->
-    <fieldset class="border border-gray-300 rounded p-4 mb-4">
+    <fieldset class="border border-gray-300 rounded p-4 mb-4" :class="{ 'input-error': formErrors.consultTopicSelected }">
       <legend class="text-gray-700 font-semibold mb-2 px-5">ปัญหาที่พบ</legend>
 
       <!-- Customer Phone Number -->
@@ -139,14 +154,19 @@
           </label>
         </div>
       </div>
-      <div v-if="consultTopicSelected.includes(consultTopics[consultTopics.length - 1])" class="mb-4">
+
+      <!-- Other Topic -->
+      <div v-if="consultTopicSelected.includes(consultTopics[consultTopics.length - 1])" class="mb-4" :class="{ 'input-error': formErrors.otherTopic }">
         <label for="otherTopic" class="block text-gray-700 font-semibold">ระบุปัญหา</label>
         <textarea id="otherTopic" v-model="otherTopic" class="w-full border border-gray-300 rounded px-3 py-2"></textarea>
+        <div v-if="formErrors.otherTopic" class="error-message">{{ formErrors.otherTopic }}</div>
       </div>
+
+      <div v-if="formErrors.consultTopicSelected" class="error-message">{{ formErrors.consultTopicSelected }}</div>
     </fieldset>
 
-    <!-- บันทึกการจอง -->
-    <div class="text-center">
+    <!-- Consent -->
+    <div class="text-center" :class="{ 'input-error': formErrors.consentChecked }">
       <div class="mb-4">
         <label>
           <input type="checkbox" v-model="consentChecked">
@@ -168,6 +188,7 @@
         >
           บันทึกการจอง
         </button>
+        <div v-if="formErrors.consentChecked" class="error-message">{{ formErrors.consentChecked }}</div>
       </div>
     </div>
 
@@ -235,6 +256,10 @@ export default {
   },
   data() {
     return {
+      // เพิ่มตัวแปร disableSubmit
+      disableSubmit: true,
+      formErrors: {},
+
       companyName: 'คลินิกนมแม่ กลุ่มที่ 4',
 
       // Datepicker
@@ -281,29 +306,96 @@ export default {
       consultTypeSelected: 'phone_call'
     };
   },
+  computed: {
+    isFormValid() {
+      // ตรวจสอบความถูกต้องของฟิลด์ทั้งหมด
+      return (
+        this.bookingDate &&
+        this.selectedTimeSlot &&
+        this.customerName &&
+        this.customerIdNumber &&
+        this.customerPhoneNumber &&
+        this.customerEmail &&
+        this.hnMember &&
+        this.consultTopicSelected.length > 0 &&
+        (this.consultTopicSelected.includes(this.consultTopics[this.consultTopics.length - 1]) ? this.otherTopic : true) &&
+        this.consentChecked
+      );
+    }
+  },
   mounted() {
     this.initDatepicker();
   },
   methods: {
     navigateToSuccess() {
-      // Construct the query parameters
-      const queryParams = {
-        bookingDate: this.bookingDate,
-        selectedTimeSlot: this.selectedTimeSlot,
-        customerName: this.customerName,
-        customerIdNumber: this.customerIdNumber,
-        customerPhoneNumber: this.customerPhoneNumber,
-        customerEmail: this.customerEmail,
-        hnMember: this.hnMember,
-        consultTopicSelected: this.consultTopicSelected,
-        consultTypeSelected: this.consultTypeSelected
-      };
+      // ตรวจสอบความถูกต้องของฟอร์มก่อน
+      if (this.isFormValid) {
 
-      // Navigate to the "/success" path with query parameters
-      this.$router.push({
-        path: '/success',
-        query: queryParams
-      });
+        // Construct the query parameters
+        const queryParams = {
+          bookingDate: this.bookingDate,
+          selectedTimeSlot: this.selectedTimeSlot,
+          customerName: this.customerName,
+          customerIdNumber: this.customerIdNumber,
+          customerPhoneNumber: this.customerPhoneNumber,
+          customerEmail: this.customerEmail,
+          hnMember: this.hnMember,
+          consultTopicSelected: this.consultTopicSelected,
+          consultTypeSelected: this.consultTypeSelected
+        };
+
+        this.$router.push({
+          path: '/success',
+          query: queryParams
+        });
+      } else {
+        // แสดงข้อความแจ้งเตือนว่าต้องกรอกข้อมูลให้ครบก่อน
+        this.showFormErrors();
+      }
+    },
+    showFormErrors() {
+      // ตรวจสอบฟิลด์ที่ไม่ถูกรับข้อมูลที่จำเป็น
+      this.formErrors = {};
+
+      if (!this.bookingDate) {
+        this.formErrors.bookingDate = 'กรุณาเลือกวันที่';
+      }
+
+      if (!this.selectedTimeSlot) {
+        this.formErrors.selectedTimeSlot = 'กรุณาช่วงเวลา';
+      }
+
+      if (!this.customerName) {
+        this.formErrors.customerName = 'กรุณากรอกชื่อผู้ใช้บริการ';
+      }
+
+      if (!this.customerIdNumber) {
+        this.formErrors.customerIdNumber = 'กรุณากรอกบัตรประชาชน';
+      }
+
+      if (!this.customerPhoneNumber) {
+        this.formErrors.customerPhoneNumber = 'กรุณากรอกเบอร์โทรติดต่อ';
+      }
+
+      if (!this.customerEmail) {
+        this.formErrors.customerEmail = 'กรุณากรอกอีเมล';
+      }
+
+      if (!this.hnMember) {
+        this.formErrors.hnMember = 'กรุณาเลือกประเภทผู้ใช้บริการ';
+      }
+
+      if (this.consultTopicSelected.length === 0) {
+        this.formErrors.consultTopicSelected = 'กรุณาเลือกปัญหาที่พบ';
+      }
+
+      if (this.consultTopicSelected.includes(this.consultTopics[this.consultTopics.length - 1]) && !this.otherTopic) {
+        this.formErrors.otherTopic = 'กรุณาระบุปัญหา';
+      }
+
+      if (!this.consentChecked) {
+        this.formErrors.consentChecked = 'กรุณายอมรับเงื่อนไขและข้อตกลง';
+      }
     },
     openModal() {
       this.showModal = true;
@@ -341,3 +433,28 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.required {
+  color: #e3342f;
+}
+.error-message {
+  color: #e3342f;
+  font-size: 14px;
+  margin-top: 4px;
+}
+.input-error input,
+.input-error textarea {
+  border-color: #e3342f;
+}
+
+.input-error .error-message {
+  color: #e3342f;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+</style>
