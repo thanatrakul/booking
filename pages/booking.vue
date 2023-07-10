@@ -229,7 +229,7 @@ const ThaiLocale = {
 };
 
 export default {
-  name: 'LogoText',
+  name: 'BookingPage',
   components: {
     ConsentModal
   },
