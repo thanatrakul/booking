@@ -1,7 +1,10 @@
 <template>
-  <div class="text-center mt-20">
-    <h1>Thank You! {{ $route.query.customerName }}</h1>
-    <p>Thank you for your booking.</p>
+  <div class="text-center mt-10">
+    <div class="flex items-center justify-center mb-4">
+      <img src="~/assets/logo.png" alt="Logo" class="h-10 w-10">
+      <h1 class="text-2xl font-bold ml-2">Thank You!</h1>
+    </div>
+    <hr class="border-gray-300 mx-20">
   </div>
 
   <div class="text-center mt-20">
