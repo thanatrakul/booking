@@ -95,11 +95,9 @@
       </div>
 
       <!-- Email -->
-      <div class="mb-4" :class="{ 'input-error': formErrors.customerEmail }">
-        <span class="text-red-500">*</span>
+      <div class="mb-4">
         <label for="email" class="mr-2 text-lg font-bold">Email:</label>
-        <input type="email" v-model="customerEmail" class="px-2 py-1 border border-gray-300 rounded" required>
-        <div v-if="formErrors.customerEmail" class="error-message">{{ formErrors.customerEmail }}</div>
+        <input type="email" v-model="customerEmail" class="px-2 py-1 border border-gray-300 rounded">
       </div>
 
       <!-- Customer Hospital -->

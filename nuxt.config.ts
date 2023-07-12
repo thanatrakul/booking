@@ -16,6 +16,11 @@ export default defineNuxtConfig({
           name: 'tracking-home',
           path: '/tracking',
           component: resolve(__dirname, 'pages/tracking/index.vue'),
+        },
+        {
+          name: 'admin-home',
+          path: '/admin',
+          component: resolve(__dirname, 'pages/admin/index.vue'),
         }
       );
     },

@@ -55,21 +55,36 @@
           </tr>
         </tbody>
       </table>
+    </div>
 
+    <hr class="border-gray-300 mx-20">
+    <div class="text-center mt-10 mb-5 grap-4">
+      <nuxt-link
+        :to="{
+          path: '/admin',
+        }"
+        class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+      >
+        กลับสู่หน้า Admin
+      </nuxt-link>
+      <nuxt-link
+        :to="{
+          path: '/tracking',
+        }"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+      >
+        เปลี่ยนวันเวลานัดหมาย
+      </nuxt-link>
+      <nuxt-link
+        :to="{
+          path: '/tracking',
+        }"
+        class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+      >
+        ยกเลิกการนัดหมาย
+      </nuxt-link>
     </div>
   </div>
-
-  <div class="text-center mt-64">
-    <nuxt-link
-      :to="{
-        path: '/tracking',
-      }"
-      class="bg-blue-500 text-white px-4 py-2 rounded"
-    >
-      กลับสู่หน้า Tracking Demo
-    </nuxt-link>
-  </div>
-
 </template>
 
 
