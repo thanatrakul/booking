@@ -12,6 +12,8 @@
       <h5 class="mb-4 text-xl tracking-tight text-center">
         ไม่พบการนัดหมายในระบบ
       </h5>
+      <hr class="border-gray-300 mx-20">
+
       <p class="font-normal mt-5 text-gray-700 text-center">
           หากต้องการนัดหมายอีกครั้งสามารถทำการนัดหมายได้ที่นี่
       </p>
@@ -30,7 +32,7 @@
       :to="{
         path: '/tracking',
       }"
-      class="bg-blue-500 text-white px-4 py-2 rounded"
+      class="bg-gray-500 text-white px-4 py-2 rounded"
     >
       กลับสู่หน้า Tracking Demo
     </nuxt-link>

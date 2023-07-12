@@ -10,12 +10,14 @@
   <!-- component -->
   <div class="block max-w-2xl p-6 bg-white border border-gray-200 rounded-lg shadow mx-auto mt-10">
       <h5 class="mb-4 text-xl tracking-tight text-center">
-        นัดหมายสำหรับวันที่ {{ customer.bookingDate }} เวลาะ {{ customer.selectedTimeSlot }}
+        นัดหมายสำหรับวันที่ {{ customer.bookingDate }} เวลา {{ customer.selectedTimeSlot }}
       </h5>
-      <p class="font-normal text-xl text-center mt-10 text-gray-700">
-          สำหรับนัดหมายของคุณ {{ customer.customerName }} ได้เลยวันนัดหมายแล้ว
+      <hr class="border-gray-300 mx-20">
+
+      <p class="font-normal text-2xl text-center mt-10 text-gray-700">
+          คุณได้เลยวันนัดหมายแล้ว
       </p>
-      <p class="font-normal mt-5 text-gray-700 text-center">
+      <p class="font-normal text-lg mt-5 text-gray-700 text-center">
           หากต้องการนัดหมายอีกครั้งสามารถทำการนัดหมายได้ที่นี่
       </p>
       <p class="font-normal mt-5 text-gray-700 text-center">
@@ -33,7 +35,7 @@
       :to="{
         path: '/tracking',
       }"
-      class="bg-blue-500 text-white px-4 py-2 rounded"
+      class="bg-gray-500 text-white px-4 py-2 rounded"
     >
       กลับสู่หน้า Tracking Demo
     </nuxt-link>
@@ -47,18 +49,9 @@ export default {
   data() {
     return {
       customer: {
-        bookingDate: "2023-07-11",
+        bookingDate: "10/07/2566",
         selectedTimeSlot: "07.00 - 08.00",
-        customerName: " พัชราภา ไชยเชื้อ",
-        customerIdNumber: "1-4588-22402-16-7",
-        customerPhoneNumber: "099-222-3434",
-        customerEmail: "mohasum@mailinator.com",
-        hnMember: "registered_customer",
-        consultTopicSelected: [
-          "ปัญหาด้านน้ำนม",
-          "ทารกร้องกวน",
-        ],
-        consultTypeSelected: "ทางโทรศัทพ์"
+        customerName: "สายสมร มาเรื่อย",
       }
     }
   },

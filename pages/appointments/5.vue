@@ -31,8 +31,8 @@
           </tr>
 
           <tr>
-            <td class="p-2 text-left font-bold w-1/3">Email</td>
-            <td class="p-2 text-left w-1/3">{{ customer.customerEmail }}</td>
+            <td class="p-2 text-left font-bold w-1/3">บัตรประชาชน / Passport</td>
+            <td class="p-2 text-left w-1/3">{{ customer.customerIdNumber }}</td>
           </tr>
 
           <tr>
@@ -58,15 +58,7 @@
     </div>
 
     <hr class="border-gray-300 mx-20">
-    <div class="text-center mt-10 mb-5 grap-4">
-      <nuxt-link
-        :to="{
-          path: '/admin',
-        }"
-        class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
-      >
-        กลับสู่หน้า Admin
-      </nuxt-link>
+    <div class="text-center mt-10 mb-5 gap-4 flex flex-wrap justify-center">
       <nuxt-link
         :to="{
           path: '/tracking',
@@ -83,6 +75,14 @@
       >
         ยกเลิกการนัดหมาย
       </nuxt-link>
+      <nuxt-link
+        :to="{
+          path: '/admin',
+        }"
+        class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+      >
+        กลับสู่หน้า Admin
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -93,18 +93,17 @@ export default {
   data() {
     return {
       customer: {
-        bookingDate: "2023-07-11",
-        selectedTimeSlot: "07.00 - 08.00",
-        customerName: " พัชราภา ไชยเชื้อ",
+        bookingDate: "27/07/2566",
+        selectedTimeSlot: "07:00 - 08:00",
+        customerName: "Maruko",
         customerIdNumber: "1-4588-22402-16-7",
         customerPhoneNumber: "099-222-3434",
-        customerEmail: "mohasum@mailinator.com",
         hnMember: "registered_customer",
         consultTopicSelected: [
           "ปัญหาด้านน้ำนม",
           "ทารกร้องกวน",
         ],
-        consultTypeSelected: "ทางโทรศัทพ์"
+        consultTypeSelected: "Walk-in"
       }
     }
   },

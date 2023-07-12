@@ -75,6 +75,14 @@
       >
         ยกเลิกการนัดหมาย
       </nuxt-link>
+      <nuxt-link
+        :to="{
+          path: '/admin',
+        }"
+        class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+      >
+        กลับสู่หน้า Admin
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -85,9 +93,9 @@ export default {
   data() {
     return {
       customer: {
-        bookingDate: "21/07/2566",
-        selectedTimeSlot: "09:00 - 10:00",
-        customerName: "สมหญิง มาตรง",
+        bookingDate: "22/07/2566",
+        selectedTimeSlot: "13:00 - 14:00",
+        customerName: "มาริสา ยาเซ่น",
         customerIdNumber: "1-4588-22402-16-7",
         customerPhoneNumber: "099-222-3434",
         hnMember: "registered_customer",
@@ -95,7 +103,7 @@ export default {
           "ปัญหาด้านน้ำนม",
           "ทารกร้องกวน",
         ],
-        consultTypeSelected: "ทางโทรศัทพ์"
+        consultTypeSelected: "วิดิโอคอล"
       }
     }
   },
