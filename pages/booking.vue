@@ -9,7 +9,7 @@
   </div>
 
   <div class="mt-4 max-w-full mx-20 mb-20">
-    <h1 class="text-2xl font-bold mb-4">ระบบจองนัดปรึกษาพยาบาล</h1>
+    <h1 class="text-2xl font-bold mb-4">ระบบจองนัดออนไลน์</h1>
 
     <!-- Day Booking -->
     <fieldset class="border border-gray-300 rounded p-4 mb-4">
@@ -20,7 +20,7 @@
         <span class="text-red-500">*</span>
         <label for="datepicker" class="mr-2 text-lg font-bold">วันที่:</label>
         <input type="text" id="datepicker" v-model="bookingDate" class="px-2 py-1 border border-gray-300 rounded" readonly required>
-        จองได้ล่วงหน้าก่อน 1 วัน
+        <span class="pl-5">จองได้ล่วงหน้าก่อน 1 วัน</span>
         <div v-if="formErrors.bookingDate" class="error-message">{{ formErrors.bookingDate }}</div>
       </div>
 
@@ -94,12 +94,6 @@
         <div v-if="formErrors.customerPhoneNumber" class="error-message">{{ formErrors.customerPhoneNumber }}</div>
       </div>
 
-      <!-- Email -->
-      <div class="mb-4">
-        <label for="email" class="mr-2 text-lg font-bold">Email:</label>
-        <input type="email" v-model="customerEmail" class="px-2 py-1 border border-gray-300 rounded">
-      </div>
-
       <!-- Customer Hospital -->
       <div class="mb-4" :class="{ 'input-error': formErrors.hnMember }">
         <span class="text-red-500">*</span>
@@ -107,7 +101,7 @@
         <div class="flex flex-col">
           <label class="inline-flex items-center">
             <input type="radio" v-model="hnMember" value="registered_customer" class="form-radio text-blue-500">
-            <span class="ml-2">เคยมีประวัติกับโรงพบาบาลแล้ว</span>
+            <span class="ml-2">เคยมีประวัติกับโรงพยาบาลแล้ว</span>
           </label>
           <label class="inline-flex items-center">
             <input type="radio" v-model="hnMember" value="new_customer" class="form-radio text-blue-500">
@@ -168,13 +162,13 @@
       <div class="mb-4">
         <label>
           <input type="checkbox" v-model="consentChecked">
-          I agree to the terms and conditions.
+          รับทราบและยืนยันตามเงื่อนไข
         </label>
         <span
           class="ml-2 text-blue-500 cursor-pointer"
           @click="openModal"
         >
-          Read more
+          อ่านรายละเอียด
         </span>
       </div>
       <div>
@@ -279,6 +273,7 @@ export default {
         'ปัญหาด้านน้ำนม',
         'ปัญหาการให้นม',
         'ทารกร้องกวน',
+        'ทารกไม่ดูดนม',
         'อื่นๆ'
       ],
       otherTopic: '',
@@ -296,7 +291,6 @@ export default {
       customerName: '',
       customerIdNumber: '',
       customerPhoneNumber: '',
-      customerEmail: '',
       hnMember: '',
 
       // Consult Type
@@ -313,7 +307,6 @@ export default {
         this.customerName &&
         this.customerIdNumber &&
         this.customerPhoneNumber &&
-        this.customerEmail &&
         this.hnMember &&
         this.consultTopicSelected.length > 0 &&
         (this.consultTopicSelected.includes(this.consultTopics[this.consultTopics.length - 1]) ? this.otherTopic : true) &&
@@ -336,7 +329,6 @@ export default {
           customerName: this.customerName,
           customerIdNumber: this.customerIdNumber,
           customerPhoneNumber: this.customerPhoneNumber,
-          customerEmail: this.customerEmail,
           hnMember: this.hnMember,
           consultTopicSelected: this.consultTopicSelected,
           consultTypeSelected: this.consultTypeSelected
@@ -373,10 +365,6 @@ export default {
 
       if (!this.customerPhoneNumber) {
         this.formErrors.customerPhoneNumber = 'กรุณากรอกเบอร์โทรติดต่อ';
-      }
-
-      if (!this.customerEmail) {
-        this.formErrors.customerEmail = 'กรุณากรอกอีเมล';
       }
 
       if (!this.hnMember) {
