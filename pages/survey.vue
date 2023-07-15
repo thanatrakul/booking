@@ -8,8 +8,7 @@
     <hr class="border-gray-300 mx-20">
   </div>
 
-  <div class="mt-4 max-w-full mx-20 mb-20">
-    <h1 class="text-2xl font-bold mb-4">Survey</h1>
+  <div class="mt-4 leading-loose max-w-full mx-5 mb-5">
 
     <fieldset class="border border-gray-300 rounded p-4 mb-4">
       <legend class="text-gray-700 font-semibold mb-2 px-5">
