@@ -28,7 +28,7 @@
     </fieldset>
 
     <div v-if="showMessageHotLine" class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-2 rounded mt-4">
-      ควรมาโรงพยาบาลภายใน 24 ชั้วโมง
+      ควรมาโรงพยาบาลภายใน 24 ชั่วโมง
       Hot Line: 088-990-9999
     </div>
 
