@@ -33,7 +33,7 @@
     </div>
 
     <div v-if="showMessageAll" class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-2 rounded mt-4">
-      <ul class="list-disc p-2">
+      <ul class="list-disc leading-loose p-2">
         <li class="mt-2">แนะนำระบายน้ำนมให้เกลิ้ยงเต้าทุกๆ 2-3 ชั่วโมง</li>
         <li class="mt-4">หากมีอาการเพิ่มเติม เช่น มีไข้ เต้านมปวดบวม แดง ร้อน แนะนำให้มาโรงพยาบาล ภายใน 24 ชั่วโมง</li>
         <li class="mt-4">

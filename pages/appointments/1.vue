@@ -85,6 +85,47 @@
       </nuxt-link>
     </div>
   </div>
+
+  <div v-if="histories.length"  class="max-w-xl py-4 px-8 bg-white shadow-lg rounded-lg my-20 mx-auto">
+    <div>
+      <h2 class="text-gray-800 text-3xl font-semibold">ประวัติการรักษา</h2>
+      <hr class="border-gray-300">
+
+      <div class="w-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6 mx-auto mt-5">
+        <div
+          v-for="history in histories"
+          :key="index"
+          class="shadow p-5 rounded-lg border-t-4 border-green-400 bg-white"
+        >
+          <p class="mt-4 text-2xl text-gray-700 font-medium">
+            {{ history.date }}
+          </p>
+
+          <div class="mt-8">
+            <ul class="grid grid-cols-1 gap-4">
+              <li class="inline-flex items-center text-gray-600">
+                <svg class="w-4 h-4 mr-2 fill-current text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM371.8 211.8l-128 128C238.3 345.3 231.2 348 224 348s-14.34-2.719-19.81-8.188l-64-64c-10.91-10.94-10.91-28.69 0-39.63c10.94-10.94 28.69-10.94 39.63 0L224 280.4l108.2-108.2c10.94-10.94 28.69-10.94 39.63 0C382.7 183.1 382.7 200.9 371.8 211.8z"></path>
+                </svg>
+
+                {{ history.date }}
+              </li>
+
+              <li class="inline-flex items-center text-gray-600">
+                <svg class="w-4 h-4 mr-2 fill-current text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM371.8 211.8l-128 128C238.3 345.3 231.2 348 224 348s-14.34-2.719-19.81-8.188l-64-64c-10.91-10.94-10.91-28.69 0-39.63c10.94-10.94 28.69-10.94 39.63 0L224 280.4l108.2-108.2c10.94-10.94 28.69-10.94 39.63 0C382.7 183.1 382.7 200.9 371.8 211.8z"></path>
+                </svg>
+
+                {{ history.consult }}
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
 </template>
 
 
@@ -104,7 +145,17 @@ export default {
           "ทารกร้องกวน",
         ],
         consultTypeSelected: "ทางโทรศัทพ์"
-      }
+      },
+      histories: [
+        {
+          date: "21/07/2566",
+          consult: "1111111"
+        },
+        {
+          date: "23/07/2566",
+          consult: "222"
+        }
+      ]
     }
   },
 };
