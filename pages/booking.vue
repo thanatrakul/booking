@@ -133,30 +133,6 @@
 
     </fieldset>
 
-    <!-- Consult Issues -->
-    <fieldset class="border border-gray-300 rounded p-4 mb-4" :class="{ 'input-error': formErrors.consultTopicSelected }">
-      <legend class="text-gray-700 font-semibold mb-2 px-5">ปัญหาที่พบ</legend>
-
-      <!-- Customer Phone Number -->
-      <div class="mb-4">
-        <div class="flex flex-col">
-          <label v-for="(topic, index) in consultTopics" :key="index" class="inline-flex items-center mb-2">
-            <input type="checkbox" :name="'topic' + (index + 1)" :value="topic" v-model="consultTopicSelected" class="form-checkbox text-green-500">
-            <span class="ml-2">{{ topic }}</span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Other Topic -->
-      <div v-if="consultTopicSelected.includes(consultTopics[consultTopics.length - 1])" class="mb-4" :class="{ 'input-error': formErrors.otherTopic }">
-        <label for="otherTopic" class="block text-gray-700 font-semibold">ระบุปัญหา</label>
-        <textarea id="otherTopic" v-model="otherTopic" class="w-full border border-gray-300 rounded px-3 py-2"></textarea>
-        <div v-if="formErrors.otherTopic" class="error-message">{{ formErrors.otherTopic }}</div>
-      </div>
-
-      <div v-if="formErrors.consultTopicSelected" class="error-message">{{ formErrors.consultTopicSelected }}</div>
-    </fieldset>
-
     <!-- Consent -->
     <div class="text-center" :class="{ 'input-error': formErrors.consentChecked }">
       <div class="mb-4">
@@ -308,8 +284,6 @@ export default {
         this.customerIdNumber &&
         this.customerPhoneNumber &&
         this.hnMember &&
-        this.consultTopicSelected.length > 0 &&
-        (this.consultTopicSelected.includes(this.consultTopics[this.consultTopics.length - 1]) ? this.otherTopic : true) &&
         this.consentChecked
       );
     }
@@ -329,9 +303,7 @@ export default {
           customerName: this.customerName,
           customerIdNumber: this.customerIdNumber,
           customerPhoneNumber: this.customerPhoneNumber,
-          hnMember: this.hnMember,
-          consultTopicSelected: this.consultTopicSelected,
-          consultTypeSelected: this.consultTypeSelected
+          hnMember: this.hnMember
         };
 
         this.$router.push({
@@ -369,14 +341,6 @@ export default {
 
       if (!this.hnMember) {
         this.formErrors.hnMember = 'กรุณาเลือกประเภทผู้ใช้บริการ';
-      }
-
-      if (this.consultTopicSelected.length === 0) {
-        this.formErrors.consultTopicSelected = 'กรุณาเลือกปัญหาที่พบ';
-      }
-
-      if (this.consultTopicSelected.includes(this.consultTopics[this.consultTopics.length - 1]) && !this.otherTopic) {
-        this.formErrors.otherTopic = 'กรุณาระบุปัญหา';
       }
 
       if (!this.consentChecked) {
