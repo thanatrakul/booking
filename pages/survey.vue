@@ -23,6 +23,10 @@
             <span class="ml-2">{{ topic.name }}</span>
           </label>
         </div>
+        <div class="flex flex-col">
+            <label for="message" class="block mb-2 text-sm font-medium">ปัญหาอื่นๆ</label>
+            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="ระบุปัญหาที่พบ"></textarea>
+        </div>
       </div>
     </fieldset>
 
@@ -33,7 +37,7 @@
 
     <div v-if="showMessageAll" class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-2 rounded mt-4">
       <ul class="list-disc leading-loose p-2">
-        <li class="mt-2">แนะนำระบายน้ำนมให้เกลิ้ยงเต้าทุกๆ 2-3 ชั่วโมง</li>
+        <li class="mt-2">แนะนำระบายน้ำนมให้เกลี้ยงเต้าทุกๆ 2-3 ชั่วโมง</li>
         <li class="mt-4">หากมีอาการเพิ่มเติม เช่น มีไข้ เต้านมปวดบวม แดง ร้อน แนะนำให้มาโรงพยาบาล ภายใน 24 ชั่วโมง</li>
         <li class="mt-4">
           หากต้องการคำปรึกษาเพิ่มเติม
