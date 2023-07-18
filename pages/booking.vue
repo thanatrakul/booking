@@ -117,16 +117,16 @@
         <label for="consult_type" class="mr-2 text-lg font-bold">รูปแบบการปรึกษา:</label>
         <div class="flex flex-col">
           <label class="inline-flex items-center">
-            <input type="radio" v-model="consultTypeSelected" value="phone_call" class="form-radio text-blue-500">
+            <input type="radio" v-model="consultTypeSelected" value="โทรศัพท์" class="form-radio text-blue-500">
             <span class="ml-2">ทางโทรศัพท์</span>
           </label>
           <label class="inline-flex items-center">
-            <input type="radio" v-model="consultTypeSelected" value="vdo_call" class="form-radio text-blue-500">
+            <input type="radio" v-model="consultTypeSelected" value="วีดีโอคอล" class="form-radio text-blue-500">
             <span class="ml-2">ทางวีดีโอคอล</span>
           </label>
           <label class="inline-flex items-center">
-            <input type="radio" v-model="consultTypeSelected" value="onsite" class="form-radio text-blue-500">
-            <span class="ml-2">Walk-in</span>
+            <input type="radio" v-model="consultTypeSelected" value="On-Site" class="form-radio text-blue-500">
+            <span class="ml-2">On-Site</span>
           </label>
         </div>
       </div>
@@ -303,7 +303,10 @@ export default {
           customerName: this.customerName,
           customerIdNumber: this.customerIdNumber,
           customerPhoneNumber: this.customerPhoneNumber,
-          hnMember: this.hnMember
+          hnMember: this.hnMember,
+          consultTypeSelected: this.consultTypeSelected,
+          topicListText: this.$route.query.topicListText,
+          topicOther: this.$route.query.topicOther
         };
 
         this.$router.push({

@@ -17,7 +17,7 @@
 
           <tr>
             <td class="p-2 text-left font-bold w-1/3">จองวันที่</td>
-            <td class="p-2 text-left w-1/3">{{ customer.bookingDate }}</td>
+            <td class="p-2 text-left w-1/3">{{ bookingDate }}</td>
           </tr>
 
           <tr>
@@ -45,6 +45,9 @@
                 >
                   {{ topic }}
                 </li>
+                <li v-if="customer.topicOther">
+                  {{ customer.topicOther }}
+                </li>
               </ul>
           </td>
           </tr>
@@ -66,23 +69,41 @@
 
 
 <script>
+import { format } from 'date-fns';
+
 export default {
   data() {
     return {
+      // customer: {
+      //   bookingDate: "21/07/2566",
+      //   selectedTimeSlot: "09:00 - 10:00",
+      //   customerName: "สมหญิง มาตรง",
+      //   customerIdNumber: "1-4588-22402-16-7",
+      //   customerPhoneNumber: "099-222-3434",
+      //   hnMember: "registered_customer",
+      //   consultTopicSelected: [
+      //     "ปัญหาด้านน้ำนม",
+      //     "ทารกร้องกวน",
+      //   ],
+      //   consultTypeSelected: "ทางโทรศัทพ์"
+      // }
       customer: {
-        bookingDate: "21/07/2566",
-        selectedTimeSlot: "09:00 - 10:00",
-        customerName: "สมหญิง มาตรง",
-        customerIdNumber: "1-4588-22402-16-7",
-        customerPhoneNumber: "099-222-3434",
-        hnMember: "registered_customer",
-        consultTopicSelected: [
-          "ปัญหาด้านน้ำนม",
-          "ทารกร้องกวน",
-        ],
-        consultTypeSelected: "ทางโทรศัทพ์"
+        selectedTimeSlot: this.$route.query.selectedTimeSlot,
+        customerName: this.$route.query.customerName,
+        customerIdNumber: this.$route.query.customerIdNumber,
+        customerPhoneNumber: this.$route.query.customerPhoneNumber,
+        hnMember: this.$route.query.hnMember,
+        consultTopicSelected: this.$route.query.topicListText.split(","),
+        topicOther: this.$route.query.topicOther,
+        consultTypeSelected: this.$route.query.consultTypeSelected
       }
     }
+  },
+  computed: {
+    bookingDate() {
+      const date = new Date(this.$route.query.bookingDate);
+      return format(date, 'dd/MM/yyyy');
+    },
   },
 };
 </script>

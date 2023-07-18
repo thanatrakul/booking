@@ -19,20 +19,22 @@
       <div class="mb-4">
         <div class="flex flex-col">
           <label v-for="(topic, index) in topics" :key="index" class="inline-flex items-center mb-2">
-            <input type="checkbox" :name="topic.name" :value="topic.key" v-model="topicSelected" @change="handleCheckboxChange(topic)" class="form-checkbox text-green-500">
+            <input type="checkbox" :name="topic.name" :value="topic.key" v-model="topicsSelected" @change="handleCheckboxChange(topic)" class="form-checkbox text-green-500">
             <span class="ml-2">{{ topic.name }}</span>
           </label>
         </div>
         <div class="flex flex-col">
             <label for="message" class="block mb-2 text-sm font-medium">ปัญหาอื่นๆ</label>
-            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="ระบุปัญหาที่พบ"></textarea>
+            <textarea id="message" v-model="topicOther" rows="4" class="block p-2.5 w-full text-sm rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="ระบุปัญหาที่พบ"></textarea>
         </div>
       </div>
     </fieldset>
 
-    <div v-if="showMessageHotLine" class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-2 rounded mt-4">
-      ควรมาโรงพยาบาลภายใน 24 ชั่วโมง
-      Hot Line: 088-990-9999
+    <div v-if="showMessageHotLine" class="bg-red-300 border border-red-400 text-blue-700 px-4 py-2 rounded mt-4">
+        <ul class="list-disc leading-loose p-2">
+          <li class="mt-2">ควรมาโรงพยาบาลภายใน 24 ชั่วโมง</li>
+          <li class="mt-2">Hot Line: 088-990-9999</li>
+        </ul>
     </div>
 
     <div v-if="showMessageAll" class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-2 rounded mt-4">
@@ -42,7 +44,7 @@
         <li class="mt-4">
           หากต้องการคำปรึกษาเพิ่มเติม
           <NuxtLink
-            to="/booking"
+            :to="getBookingLink()"
             class="bg-blue-500 text-white px-4 py-2 rounded"
           >
             คลิกที่นี่
@@ -62,7 +64,8 @@ export default {
     return {
       companyName: 'คลินิกนมแม่ กลุ่มที่ 4',
 
-      topicSelected: [],
+      topicsSelected: [],
+      topicOther: "",
       showMessageHotLine: false, // เพิ่มข้อมูลเพื่อควบคุมการแสดงข้อความ
       showMessageAll: true, // เพิ่มข้อมูลเพื่อควบคุมการแสดงข้อความ
 
@@ -97,23 +100,52 @@ export default {
       this.showMessageAll = true;
 
       if (
-        this.topicSelected.includes("1") &&
-        this.topicSelected.includes("2") &&
-        this.topicSelected.includes("3") &&
-        this.topicSelected.includes("4") &&
-        this.topicSelected.includes("5")
+        this.topicsSelected.includes("1") &&
+        this.topicsSelected.includes("2") &&
+        this.topicsSelected.includes("3") &&
+        this.topicsSelected.includes("4") &&
+        this.topicsSelected.includes("5")
       ) {
         this.showMessageHotLine = true;
-        this.showMessageAll = false;
+        this.showMessageAll = true;
       } else {
         if(
-          this.topicSelected.includes("1") &&
-          this.topicSelected.includes("2")
+          this.topicsSelected.includes("1") &&
+          this.topicsSelected.includes("2")
         ) {
           this.showMessageHotLine = true;
-          this.showMessageAll = false;
+          this.showMessageAll = true;
         }
       }
+    },
+    getBookingLink() {
+
+      const topicList = [];
+      if (this.topicsSelected.includes("1")) {
+        topicList.push("ไข้");
+      }
+      if (this.topicsSelected.includes("2")) {
+        topicList.push("เต้านมบวม แดง ร้อน");
+      }
+      if (this.topicsSelected.includes("3")) {
+        topicList.push("คลำพบก้อนบริเวณเต้านม");
+      }
+      if (this.topicsSelected.includes("4")) {
+        topicList.push("เจ็บเต้านม");
+      }
+      if (this.topicsSelected.includes("5")) {
+        topicList.push("เวลาให้นมหรือปั๊มนมมีอาการเจ็บแสบบริเวณเต้านม หัวนม");
+      }
+      const topicListText = topicList.toString();
+      const topicOther = this.topicOther;
+
+      return {
+        path: '/booking',
+        query: {
+          topicListText,
+          topicOther
+        }
+      };
     }
   }
 }
